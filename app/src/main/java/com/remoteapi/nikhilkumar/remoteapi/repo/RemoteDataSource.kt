@@ -6,26 +6,13 @@ import android.arch.lifecycle.MutableLiveData
 import android.content.Context
 import android.util.Log
 
-import android.webkit.URLUtil
-import com.android.volley.Response
-import com.android.volley.VolleyError
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
-import com.remoteapi.nikhilkumar.remoteapi.APIConstants
-import com.remoteapi.nikhilkumar.remoteapi.responsePOJO.MyContestAPIElement
-
 import com.remoteapi.nikhilkumar.remoteapi.utils.Resource
-import java.util.HashMap
-import com.android.volley.AuthFailureError
-import com.android.volley.Request
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-
-
-
-
-
-
+import com.remoteapi.nikhilkumar.remoteapi.R
+import com.remoteapi.nikhilkumar.remoteapi.loadJSONFromRaw
+import com.remoteapi.nikhilkumar.remoteapi.responsePOJO.MatchData
+import com.remoteapi.nikhilkumar.remoteapi.responsePOJO.PlayerData
 
 
 class RemoteDataSource(private val appContext: Context){
@@ -37,47 +24,43 @@ class RemoteDataSource(private val appContext: Context){
         }
     }
 
-    private fun isPaginationState(pageNum: Int) = pageNum > DEFAULT_PAGE_NUM
-    fun getMyContestDetails(pageNum : Int , pageSize : Int) : LiveData<Resource<List<MyContestAPIElement>>> {
-        val data = MutableLiveData<Resource<List<MyContestAPIElement>>>()
-        data.value = Resource.loading(isPaginatedLoading = isPaginationState(pageNum))
-
-        val url = "http://stgapi.cricplay.com/cric/user/test/27243041-46a3-4588-9445-9b71d24da6b9/contest?page=$pageNum&size=$pageSize"
-
-        if (!URLUtil.isValidUrl(url)) {
-            data.value = Resource.error(VolleyError("Url is Invalid"))
-        } else {
-            val queue = Volley.newRequestQueue(appContext)
-
-            val getRequest: StringRequest = object : StringRequest(Request.Method.GET, url, Response.Listener {
-                // response
-                val gson = Gson()
-                val myContestListType = object : TypeToken<List<MyContestAPIElement>>() {}.type
-                val listLiveData : List<MyContestAPIElement> = gson.fromJson(it, myContestListType)
-                Log.d("AK",it)
-                data.value = Resource.success(listLiveData)
-
-            }, Response.ErrorListener {
-                data.value = Resource.error(it)
-            }
-            ) {
-                @Throws(AuthFailureError::class)
-                override fun getHeaders(): Map<String, String?> {
-                    val params = getHeaderForAPI()
-                    return params
-                }
-            }
-            queue.add(getRequest);
 
 
-        }
-        return data
-    }
 
-
-    private fun getHeaderForAPI(): Map<String, String?> {
+    /*private fun getHeaderForAPI(): Map<String, String?> {
         val header = HashMap<String, String?>()
         header[APIConstants.AUTHORIZATION] = APIConstants.AUTH_VALUE
         return header
+    }*/
+
+    fun getPlayerDataFromJson() : LiveData<Resource<List<PlayerData>>>{
+        val data = MutableLiveData<Resource<List<PlayerData>>>()
+        data.value = Resource.loading()
+
+        val json = loadJSONFromRaw(appContext, R.raw.starwarsplayers)
+
+        val gson = Gson()
+        val playerListType = object : TypeToken<List<PlayerData>>() {}.type
+        val listLiveData : List<PlayerData> = gson.fromJson(json, playerListType)
+        Log.d("AK",json)
+        data.value = Resource.success(listLiveData)
+
+        return data
     }
+
+    fun getMatchDataFromJson() : LiveData<Resource<List<MatchData>>>{
+        val data = MutableLiveData<Resource<List<MatchData>>>()
+//        data.value = Resource.loading()
+
+        val json = loadJSONFromRaw(appContext, R.raw.starwarsmatches)
+
+        val gson = Gson()
+        val matchListType = object : TypeToken<List<MatchData>>() {}.type
+        val listLiveData : List<MatchData> = gson.fromJson(json, matchListType)
+        Log.d("AK",json)
+        data.value = Resource.success(listLiveData)
+
+        return data
+    }
+
 }

@@ -32,3 +32,4 @@ fun <T : ViewModel> AppCompatActivity.obtainViewModel(viewModelClass: Class<T>) 
 
 fun <T : ViewModel> Fragment.obtainViewModel(viewModelClass: Class<T>) =
         ViewModelProviders.of(this, ViewModelFactory.getInstance(activity!!.application)).get(viewModelClass)
+

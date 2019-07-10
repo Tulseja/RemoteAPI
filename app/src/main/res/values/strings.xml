@@ -13,4 +13,6 @@
     <string name="points">POINTS</string>
     <string name="mega_contest">MEGA CONTEST</string>
     <string name="pvt_contest">PRIVATE CONTEST</string>
+    <string name="points_table">Points Table</string>
+    <string name="matches">Matches</string>
 </resources>

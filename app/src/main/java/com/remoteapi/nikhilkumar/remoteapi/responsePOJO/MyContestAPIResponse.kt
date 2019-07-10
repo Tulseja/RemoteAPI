@@ -1,8 +1,7 @@
 package com.remoteapi.nikhilkumar.remoteapi.responsePOJO
 
 import com.google.gson.annotations.SerializedName
-
-
+import java.io.Serializable
 
 
 /*data class MyContestAPIResponse(@SerializedName("meta") var meta: Meta? = null,
@@ -40,3 +39,31 @@ data class WinnerPrize(@SerializedName("totalWinner") var totalWinner: Int? = nu
 data class UserTeam(@SerializedName("name") var name: String? = null,
                     @SerializedName("rank") var rank: Int? = null,
                     @SerializedName("points") var points: Float? = null)
+
+data class PlayerData(@SerializedName("id") var id: Int? = null,
+                      @SerializedName("name") var name: String? = null ,
+                      @SerializedName("icon") var icon: String? = null ,
+                      var score : Int ? = null
+                      )
+
+
+data class MatchData(@SerializedName("match") var matchNum: Int? = null,
+                     @SerializedName("player1") var player1Data: PlayerDataForMatch? = null ,
+                     @SerializedName("player2") var player2Data: PlayerDataForMatch? = null ) : Serializable
+
+data class PlayerDataForMatch(@SerializedName("id") var id: Int? = null ,
+                              @SerializedName("score") var score: Int? = null ,
+                              var name : String ? = null
+                              ) :Serializable
+
+/*{
+    "match": 1,
+    "player1": {
+    "id": 1,
+    "score": 93
+},
+    "player2": {
+    "id": 2,
+    "score": 83
+}
+}*/
