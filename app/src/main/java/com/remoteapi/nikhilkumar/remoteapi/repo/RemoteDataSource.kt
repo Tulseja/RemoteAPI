@@ -9,10 +9,13 @@ import android.util.Log
 import com.remoteapi.nikhilkumar.remoteapi.utils.Resource
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.remoteapi.nikhilkumar.remoteapi.INVOICE_DATA
 import com.remoteapi.nikhilkumar.remoteapi.R
 import com.remoteapi.nikhilkumar.remoteapi.loadJSONFromRaw
-import com.remoteapi.nikhilkumar.remoteapi.responsePOJO.MatchData
-import com.remoteapi.nikhilkumar.remoteapi.responsePOJO.PlayerData
+import com.remoteapi.nikhilkumar.remoteapi.responsePOJO.*
+import com.remoteapi.nikhilkumar.remoteapi.utils.CacheManager
+import com.remoteapi.nikhilkumar.remoteapi.utils.INVOICE_TABLE
+import com.remoteapi.nikhilkumar.remoteapi.utils.InvoiceDBHelper
 
 
 class RemoteDataSource(private val appContext: Context){
@@ -61,6 +64,42 @@ class RemoteDataSource(private val appContext: Context){
         data.value = Resource.success(listLiveData)
 
         return data
+    }
+
+    fun getProdListFromJson() : LiveData<Resource<ProductsList>>{
+
+        val data = MutableLiveData<Resource<ProductsList>>()
+        val json = loadJSONFromRaw(appContext, R.raw.prodlistsample)
+        val gson = Gson()
+        val listLiveData : ProductsList = gson.fromJson(json,ProductsList::class.java)
+        Log.d("AK",json)
+        data.value = Resource.success(listLiveData)
+        return data
+    }
+
+    fun getInvoiceListFromCache() : LiveData<Resource<List<Invoice>>> {
+        val data = MutableLiveData<Resource<List<Invoice>>>()
+        val cacheManager = CacheManager.getCacheManagerInstance(appContext)
+        val json  = cacheManager.retrieveData(INVOICE_DATA)
+        val gson = Gson()
+        val invoiceListType = object : TypeToken<List<Invoice>>() {}.type
+        val listLiveData : List<Invoice> = gson.fromJson(json, invoiceListType)
+        Log.d("AK",json)
+        data.value = Resource.success(listLiveData)
+        return data
+    }
+
+    fun getInvoiceListFromDB() : List<Invoice>{
+        val list =  InvoiceDBHelper.getInstance(appContext).getInvoiceList(INVOICE_TABLE)
+        return list.toList()
+    }
+
+    fun saveInvoice(json : String){
+        CacheManager.getCacheManagerInstance(appContext).saveData(INVOICE_DATA,json)
+    }
+
+    fun saveInvoiceListToDB(list : ArrayList<Product>)  {
+        InvoiceDBHelper.getInstance(appContext).insertInvoiceList(list, INVOICE_TABLE)
     }
 
 }

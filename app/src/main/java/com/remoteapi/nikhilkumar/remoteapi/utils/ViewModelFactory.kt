@@ -4,7 +4,8 @@ import android.app.Application
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.remoteapi.nikhilkumar.remoteapi.repo.Repository
-import com.remoteapi.nikhilkumar.remoteapi.viewModel.MyContestListViewModel
+import com.remoteapi.nikhilkumar.remoteapi.viewModel.CreateInvoiceViewModel
+import com.remoteapi.nikhilkumar.remoteapi.viewModel.InvoiceListViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory private constructor(
@@ -15,7 +16,8 @@ class ViewModelFactory private constructor(
     override fun <T : ViewModel> create(modelClass: Class<T>) =
             with(modelClass) {
                 when {
-                    isAssignableFrom(MyContestListViewModel::class.java) -> MyContestListViewModel(repository)
+                    isAssignableFrom(CreateInvoiceViewModel::class.java) -> CreateInvoiceViewModel(repository)
+                    isAssignableFrom(InvoiceListViewModel::class.java) -> InvoiceListViewModel(repository)
                     else -> throw IllegalArgumentException("Unknown viewmodel class ${modelClass.name}")
                 }
             } as T

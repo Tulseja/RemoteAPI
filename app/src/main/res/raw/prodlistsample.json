@@ -1,0 +1,45 @@
+{
+  "success": true,
+  "products": [
+    {
+      "name": "Fortune Soya Health Refined Soyabean Oil (Pouch)",
+      "image_url": "https://cdn.grofers.com/app/images/products/normal/pro_52.jpg",
+      "price": 120.00
+    },
+    {
+      "name": "Tata Salt",
+      "image_url": "https://cdn.grofers.com/app/images/products/normal/pro_105.jpg",
+      "price": 20.00
+    },
+    {
+      "name": "Aashirvaad Shudh Chakki Whole Wheat Atta",
+      "image_url": "https://cdn.grofers.com/app/images/products/normal/pro_333324.jpg",
+      "price": 360.00
+    },
+    {
+      "name": "Milkfood Pure Ghee (Carton)",
+      "image_url": "https://cdn.grofers.com/app/images/products/normal/pro_82898.jpg",
+      "price": 475.00
+    },
+    {
+      "name": "Rajdhani Sooji/Rava",
+      "image_url": "https://cdn.grofers.com/app/images/products/normal/pro_18841.jpg",
+      "price": 39.00
+    },
+    {
+      "name": "Fortune Besan",
+      "image_url": "https://cdn.grofers.com/app/images/products/normal/pro_13.jpg",
+      "price": 110.00
+    },
+    {
+      "name": "Parle-G Original Gluco Biscuit",
+      "image_url": "https://cdn.grofers.com/app/images/products/normal/pro_60749.jpg",
+      "price": 65.00
+    },
+    {
+      "name": "Britannia Little Hearts Classic Biscuit",
+      "image_url": "https://cdn.grofers.com/app/images/products/normal/pro_362796.jpg",
+      "price": 10.00
+    }
+  ]
+}

@@ -56,6 +56,21 @@ data class PlayerDataForMatch(@SerializedName("id") var id: Int? = null ,
                               var name : String ? = null
                               ) :Serializable
 
+data class ProductsList(@SerializedName("success") var status : String ? = null ,
+                        @SerializedName("products") var productList :List<Product>? = null)
+
+data class Product(@SerializedName("name") var name : String ? = null ,
+                   @SerializedName("image_url") var url : String ? = null ,
+                   @SerializedName("price") var price : Double  = 0.0 ,
+                   var quantity : Int = 0)
+
+data class Invoice( var productListJson : String ? = null ,
+                    var invoiceId : Int  = 0,
+                    var prodList : ArrayList<Product> ? = null,
+                    var invoiceName : String ? = null)
+
+data class InvoiceList ( var invoiceList : List<Invoice> ? = null)
+
 /*{
     "match": 1,
     "player1": {

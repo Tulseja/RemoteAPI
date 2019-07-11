@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">RemoteAPI</string>
     <string name="generic_error_string">Something Went Wrong</string>
+    <string name="zero_invoice">No Invoices Yet, Tap "+" to generate your invoice.</string>
     <string name="retry">Retry</string>
     <string name="total_prize">TOTAL PRIZE</string>
     <string name="coins">COINS</string>
@@ -15,4 +16,8 @@
     <string name="pvt_contest">PRIVATE CONTEST</string>
     <string name="points_table">Points Table</string>
     <string name="matches">Matches</string>
+    <string name="invoice_table">Invoice Table</string>
+    <string name="Dairy_Milk">Dairy Milk</string>
+    <string name="create_invoice">Create Invoice</string>
+    <string name="invoice_name">Invoice Number %s</string>
 </resources>

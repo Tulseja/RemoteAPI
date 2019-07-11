@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.annotation.RawRes
 import java.io.IOException
 
+const val INVOICE_DATA = "invoiceData"
 
 fun loadJSONFromRaw(context: Context, @RawRes file: Int): String {
     var json: String = ""

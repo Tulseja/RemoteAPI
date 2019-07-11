@@ -25,10 +25,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.CreateInvoiceActivity"/>
 
-        <activity android:name=".ui.MatchesListActivity">
-
-        </activity>
     </application>
 
 </manifest>
