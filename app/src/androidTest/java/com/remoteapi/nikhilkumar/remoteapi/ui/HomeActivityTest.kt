@@ -27,7 +27,7 @@ class HomeActivityTest {
     var mActivityTestRule = ActivityTestRule(HomeActivity::class.java)
 
     @Test
-    fun myContestHomeActivityTest() {
+    fun HomeActivityTest() {
         val imageButton = onView(
                 allOf(withId(R.id.fab_bottom_btn),
                         childAtPosition(
