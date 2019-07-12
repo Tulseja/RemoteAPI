@@ -35,6 +35,7 @@ class HomeInvoicesAdapter(val clickListener: ItemClickListener) : PaginationAdap
     }
 
 
+
      class AllInvoiceViewHolder(itemView: View, val clickListener :ItemClickListener) : RecyclerView.ViewHolder(itemView) {
 
         val context by lazy { itemView.context }

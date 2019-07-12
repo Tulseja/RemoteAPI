@@ -12,12 +12,12 @@ class CreateInvoiceViewModel(private val repository: Repository) : ViewModel() {
     var prodListLiveData = repository.getProductList()
 
 
-    fun createInvoice(list : List<Product>){
+    fun createInvoice(list : ArrayList<Product>) : Long{
         /*val productsList = ArrayList<Product>(map.keys)
         val obj = JSONObject()
         obj.put("id", uniqueId)
         val jsonArr = JSONArray(productsList)
         obj.put("products",jsonArr)*/
-        repository.saveInvoice(list)
+        return repository.saveInvoice(list)
     }
 }

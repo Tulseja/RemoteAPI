@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">RemoteAPI</string>
+    <string name="app_name">Invoice Generator</string>
     <string name="generic_error_string">Something Went Wrong</string>
-    <string name="zero_invoice">No Invoices Yet, Tap "+" to generate your invoice.</string>
+    <string name="zero_invoice">No Invoices Yet, Tap Invoice Icon At the Bottom to generate your invoice.</string>
     <string name="retry">Retry</string>
     <string name="total_prize">TOTAL PRIZE</string>
     <string name="coins">COINS</string>
@@ -20,4 +20,6 @@
     <string name="Dairy_Milk">Dairy Milk</string>
     <string name="create_invoice">Create Invoice</string>
     <string name="invoice_name">Invoice Number %s</string>
+    <string name="total_price">Order Total : </string>
+    <string name="pls_select">Please Select at least one product.</string>
 </resources>

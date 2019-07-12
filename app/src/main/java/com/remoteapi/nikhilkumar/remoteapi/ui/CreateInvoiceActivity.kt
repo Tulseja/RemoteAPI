@@ -1,8 +1,15 @@
 package com.remoteapi.nikhilkumar.remoteapi.ui
 
+import android.app.Activity
 import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.SearchView
+import android.text.TextUtils
+import android.widget.Toast
+
 
 import com.remoteapi.nikhilkumar.remoteapi.R
 import com.remoteapi.nikhilkumar.remoteapi.responsePOJO.Product
@@ -15,15 +22,7 @@ import obtainViewModel
 
 
 
-class CreateInvoiceActivity :  CreateInvoiceAdapter.ItemClickListener,AppCompatActivity(){
-
-    override fun onQuantityIncreased(id: Int) {
-
-    }
-
-    override fun onQuantityDecreased(id: Int) {
-
-    }
+class CreateInvoiceActivity :  AppCompatActivity(){
 
     lateinit var viewModel: CreateInvoiceViewModel
     var list = mutableListOf<Product>()
@@ -37,24 +36,39 @@ class CreateInvoiceActivity :  CreateInvoiceAdapter.ItemClickListener,AppCompatA
     }
 
     private fun setListeners(){
-
         create_inv_tv.setOnClickListener {
-//            val id = getInvoiceId()
             val map = mHomeAdapter?.getAllSelectedProducts()
-              val list = map?.keys?.toList()
-            if(list?.isNotEmpty() == true) {
-                viewModel.createInvoice(list)
-                finish()
-            }
+              val list = ArrayList<Product>(map?.values)
+                if(list.isNotEmpty()) {
+                    val insertedId = viewModel.createInvoice(list)
+                    val intent = Intent()
+                    intent.putExtra("id",insertedId)
+                    setResult(Activity.RESULT_OK,intent)
+                    finish()
+                } else
+                    Snackbar.make(create_inv_parent_lyt,getString(R.string.pls_select) , Toast.LENGTH_SHORT).show()
         }
-    }
 
-    fun getInvoiceId() : String{
-        return (System.currentTimeMillis()).toString()
+        search_view.setOnQueryTextListener( object  : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                if(!TextUtils.isEmpty(p0))
+                    mHomeAdapter?.filter(p0!!)
+                return true
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                if(!TextUtils.isEmpty(p0))
+                    mHomeAdapter?.filter(p0!!)
+                return true
+            }
+
+        }
+
+        )
     }
 
     private fun initializeRecyclerView(){
-        mHomeAdapter = CreateInvoiceAdapter(this)
+        mHomeAdapter = CreateInvoiceAdapter()
         invoiceRv.adapter = mHomeAdapter
     }
 

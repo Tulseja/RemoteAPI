@@ -1,5 +1,6 @@
 package com.remoteapi.nikhilkumar.remoteapi.ui
 
+import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
@@ -15,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import obtainViewModel
 
 
-class MyContestHomeActivity :  AppCompatActivity()  , HomeInvoicesAdapter.ItemClickListener{
+class HomeActivity :  AppCompatActivity()  , HomeInvoicesAdapter.ItemClickListener{
     override fun onItemSelected(id: Int) {
         openInvoiceDetailActivity(id)
     }
@@ -25,7 +26,7 @@ class MyContestHomeActivity :  AppCompatActivity()  , HomeInvoicesAdapter.ItemCl
     }
 
     lateinit var viewModel: InvoiceListViewModel
-
+    val CREATE_INVOICE_CODE = 123
     var mHomeAdapter : HomeInvoicesAdapter ? = null
     val list = mutableListOf<Invoice>()
 
@@ -47,7 +48,7 @@ class MyContestHomeActivity :  AppCompatActivity()  , HomeInvoicesAdapter.ItemCl
 
     private fun openCreateInvoiceActivity(){
         val intent = Intent(this,CreateInvoiceActivity::class.java)
-        startActivity(intent)
+        startActivityForResult(intent,CREATE_INVOICE_CODE )
 
     }
 
@@ -73,48 +74,26 @@ class MyContestHomeActivity :  AppCompatActivity()  , HomeInvoicesAdapter.ItemCl
             progress_bar.hide()
             noInvoiceLyt.show()
         }
-
-        /*viewModel.invoiceListResult.observe(this, Observer {
-
-            it?.let {
-                when (it.status) {
-                    Status.LOADING -> {
-                        if (!it.isPaginatedLoading) {
-                            homeRv.hide()
-                            errorLyt.hide()
-                            progress_bar.show()
-                        }
-
-                    errorLyt.hide()
-                    }
-                    Status.ERROR -> {
-                        progress_bar.hide()
-                        errorLyt.show()
-                        homeRv.hide()
-                    mHomeAdapter?.removeLoadingViewFooter()
-                    }
-                    Status.SUCCESS -> {
-                        progress_bar.hide()
-                        errorLyt.hide()
-                        mHomeAdapter?.removeLoadingViewFooter()
-                        it.data?.let {
-                            if(it.isNotEmpty()) {
-                                homeRv.show()
-                                bindView(it)
-                            } else {
-                                homeRv.hide()
-                                noInvoiceLyt.show()
-                            }
-                        }
-                    }
-                }
-            }
-
-        })*/
     }
 
 
     private fun bindView(invoiceList : List<Invoice>){
         mHomeAdapter?.updateData(invoiceList)
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == CREATE_INVOICE_CODE){
+            if(resultCode == Activity.RESULT_OK){
+                val id = data?.getLongExtra("id", 0)
+                val inv = viewModel.getInvoiceForId(id?.toInt() ?: 0)
+                val list = ArrayList<Invoice>()
+                list.add(inv)
+                mHomeAdapter?.updateData(list)
+                noInvoiceLyt.hide()
+
+            }
+        }
     }
 }

@@ -51,52 +51,22 @@ class InvoiceDetailsActivity :  AppCompatActivity(){
     private fun observeViewModel(){
         viewModel = obtainViewModel(InvoiceProdcutListViewModel::class.java)
         val list = viewModel.getProdcutListForInvoice(invoiceId)
+        var prodTotal = 0.0
+        for( i in list){
+            prodTotal += (i.quantity*i.price)
+        }
         if(list.isNotEmpty()){
             progress_bar.hide()
             errorLyt.hide()
             invoiceDetailRv.show()
             bindView(list)
+            prod_sum_value_tv.text = prodTotal.toString()
         } else {
             progress_bar.hide()
             errorLyt.show()
             invoiceDetailRv.hide()
         }
-
-        /*viewModel.prodListLiveData.observe(this, Observer {
-
-            it?.let {
-                when (it.status) {
-                    Status.LOADING -> {
-                        if (!it.isPaginatedLoading) {
-                            invoiceDetailRv.hide()
-                            errorLyt.hide()
-                            progress_bar.show()
-                        }
-                    errorLyt.hide()
-                    }
-                    Status.ERROR -> {
-                        progress_bar.hide()
-                        errorLyt.show()
-                        invoiceDetailRv.hide()
-                    mHomeAdapter?.removeLoadingViewFooter()
-                    }
-                    Status.SUCCESS -> {
-                        progress_bar.hide()
-                        errorLyt.hide()
-                        mHomeAdapter?.removeLoadingViewFooter()
-                        it.data?.let {
-                            invoiceDetailRv.show()
-                            bindView(it)
-                        }
-                    }
-                }
-            }
-
-        })
-*/
-
     }
-
 
     private fun bindView(prodList : List<Product>){
         mHomeAdapter?.updateData(prodList)

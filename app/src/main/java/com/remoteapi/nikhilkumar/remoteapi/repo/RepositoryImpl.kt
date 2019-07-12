@@ -3,12 +3,16 @@ package com.remoteapi.nikhilkumar.remoteapi.repo
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Transformations
 import com.remoteapi.nikhilkumar.remoteapi.responsePOJO.*
-import com.remoteapi.nikhilkumar.remoteapi.utils.CacheManager
 
 import com.remoteapi.nikhilkumar.remoteapi.utils.Resource
 import com.remoteapi.nikhilkumar.remoteapi.utils.Status
 
 class RepositoryImpl(private val remoteDataSource: RemoteDataSource) : Repository {
+
+    override fun getInvoiceForID(id: Int): Invoice {
+        return remoteDataSource.getInvoiceForId(id)
+    }
+
     override fun getProductListFromDb(id : Int): List<Product> {
         val list = remoteDataSource.productListFromDB(id)
         return list
@@ -19,12 +23,8 @@ class RepositoryImpl(private val remoteDataSource: RemoteDataSource) : Repositor
         return list
     }
 
-    override fun saveInvoice(list: List<Product>) {
-        remoteDataSource.saveInvoiceListToDB(list as ArrayList<Product>)
-    }
-
-    override fun getInvoiceList(): LiveData<Resource<List<Invoice>>> {
-        return remoteDataSource.getInvoiceListFromCache()
+    override fun saveInvoice(list: ArrayList<Product>) : Long {
+        return remoteDataSource.saveInvoiceListToDB(list)
     }
 
     override fun getProductList(): LiveData<Resource<List<Product>>> {
@@ -49,45 +49,5 @@ class RepositoryImpl(private val remoteDataSource: RemoteDataSource) : Repositor
         }
 
     }
-
-    override fun getPlayerList(): LiveData<Resource<List<PlayerData>>> {
-        val playerList  = remoteDataSource.getPlayerDataFromJson()
-        return Transformations.map(playerList){
-            when(it.status){
-                Status.SUCCESS ->{
-                    if(it.data?.isNotEmpty() == true){
-                        Resource.success(it.data!!)
-                    } else Resource.error(it.error)
-                }
-                Status.ERROR ->{
-                    Resource.error(it.error)
-                }
-                Status.LOADING->{
-                    Resource.loading()
-                }
-            }
-        }
-    }
-
-    override fun getMatchList(): LiveData<Resource<List<MatchData>>> {
-        val matchList  = remoteDataSource.getMatchDataFromJson()
-        return Transformations.map(matchList){
-            when(it.status){
-                Status.SUCCESS ->{
-                    if(it.data?.isNotEmpty() == true){
-                        Resource.success(it.data!!)
-                    } else Resource.error(it.error)
-                }
-                Status.ERROR ->{
-                    Resource.error(it.error)
-                }
-                Status.LOADING->{
-                    Resource.loading()
-                }
-            }
-        }
-    }
-
-
 
 }

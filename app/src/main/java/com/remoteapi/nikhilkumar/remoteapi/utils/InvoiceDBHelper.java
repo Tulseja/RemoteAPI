@@ -66,6 +66,27 @@ public class InvoiceDBHelper extends BaseDBHelper {
         return invoiceList;
     }
 
+    public Invoice getInvoice(int id){
+        Invoice inv = new Invoice();
+        Cursor cursor = null;
+        try {
+            SQLiteDatabase db = getDB();
+            cursor = db.query(INVOICE_TABLE, null,
+                    INVOICE_ID+ "=?", new String[]{String.valueOf(id)}, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                inv.setInvoiceId(cursor.getInt(cursor.getColumnIndex(INVOICE_ID)));
+                inv.setProductListJson(cursor.getString(cursor.getColumnIndex(INVOICE_DATA)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return inv;
+    }
+
     public String getProductListJson(int invoiceId){
         Cursor cursor = null;
         String jsonString  = "";
@@ -81,7 +102,6 @@ public class InvoiceDBHelper extends BaseDBHelper {
                     if(id == invoiceId){
                        jsonString = cursor.getString(jsonIndex);
                     }
-
                     cursor.moveToNext();
                 }
             }
@@ -97,7 +117,7 @@ public class InvoiceDBHelper extends BaseDBHelper {
     }
 
     @NonNull
-    public boolean insertInvoiceList(ArrayList<Product> productArrayList, String tableName) {
+    public long insertInvoiceList(ArrayList<Product> productArrayList, String tableName) {
         ContentValues contentValues;
         Gson gson = new Gson();
 
@@ -114,6 +134,6 @@ public class InvoiceDBHelper extends BaseDBHelper {
         long insertedId = getDB().insert(tableName, null, contentValues);
         Log.d(TAG, "Inserted/updated invoice id: " + insertedId);
 
-        return true;
+        return insertedId;
     }
 }
