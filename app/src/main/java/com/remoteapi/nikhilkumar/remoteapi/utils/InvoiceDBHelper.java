@@ -19,6 +19,7 @@ import java.util.List;
 
 import static com.remoteapi.nikhilkumar.remoteapi.utils.DBConstantsKt.INVOICE_DATA;
 import static com.remoteapi.nikhilkumar.remoteapi.utils.DBConstantsKt.INVOICE_ID;
+import static com.remoteapi.nikhilkumar.remoteapi.utils.DBConstantsKt.INVOICE_TABLE;
 
 
 public class InvoiceDBHelper extends BaseDBHelper {
@@ -63,6 +64,36 @@ public class InvoiceDBHelper extends BaseDBHelper {
             }
         }
         return invoiceList;
+    }
+
+    public String getProductListJson(int invoiceId){
+        Cursor cursor = null;
+        String jsonString  = "";
+        try {
+            SQLiteDatabase db = getDB();
+            cursor = db.query(INVOICE_TABLE, null, null, null, null, null, null);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                int index = cursor.getColumnIndex(INVOICE_ID);
+                int jsonIndex = cursor.getColumnIndex(INVOICE_DATA);
+                while (!cursor.isAfterLast()) {
+                    int id = cursor.getInt(index);
+                    if(id == invoiceId){
+                       jsonString = cursor.getString(jsonIndex);
+                    }
+
+                    cursor.moveToNext();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return jsonString ;
     }
 
     @NonNull

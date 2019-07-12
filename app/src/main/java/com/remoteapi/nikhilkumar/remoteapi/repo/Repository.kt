@@ -11,4 +11,5 @@ interface Repository {
     fun getProductList() : LiveData<Resource<List<Product>>>
     fun saveInvoice(list : List<Product>)
     fun getInvoiceListFromDB() : List<Invoice>
+    fun getProductListFromDb(id : Int) : List<Product>
 }

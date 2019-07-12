@@ -21,7 +21,7 @@ class MyContestHomeActivity :  AppCompatActivity()  , HomeInvoicesAdapter.ItemCl
     }
 
     private fun openInvoiceDetailActivity(id : Int){
-//        val intent = Intent(this , )
+        InvoiceDetailsActivity.startActivity(this,id)
     }
 
     lateinit var viewModel: InvoiceListViewModel

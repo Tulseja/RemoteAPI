@@ -9,7 +9,7 @@ import com.remoteapi.nikhilkumar.remoteapi.responsePOJO.Product
 import com.remoteapi.nikhilkumar.remoteapi.utils.Status
 import com.remoteapi.nikhilkumar.remoteapi.utils.*
 import com.remoteapi.nikhilkumar.remoteapi.viewModel.CreateInvoiceViewModel
-import kotlinx.android.synthetic.main.invoice_details_lyt.*
+import kotlinx.android.synthetic.main.create_invoice_lyt.*
 
 import obtainViewModel
 
@@ -30,7 +30,7 @@ class CreateInvoiceActivity :  CreateInvoiceAdapter.ItemClickListener,AppCompatA
     var mHomeAdapter : CreateInvoiceAdapter ? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.invoice_details_lyt)
+        setContentView(R.layout.create_invoice_lyt)
         observeViewModel()
         initializeRecyclerView()
         setListeners()

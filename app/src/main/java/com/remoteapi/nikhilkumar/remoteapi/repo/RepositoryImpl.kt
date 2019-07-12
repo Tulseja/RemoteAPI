@@ -9,6 +9,11 @@ import com.remoteapi.nikhilkumar.remoteapi.utils.Resource
 import com.remoteapi.nikhilkumar.remoteapi.utils.Status
 
 class RepositoryImpl(private val remoteDataSource: RemoteDataSource) : Repository {
+    override fun getProductListFromDb(id : Int): List<Product> {
+        val list = remoteDataSource.productListFromDB(id)
+        return list
+    }
+
     override fun getInvoiceListFromDB(): List<Invoice> {
         val list = remoteDataSource.getInvoiceListFromDB()
         return list

@@ -18,6 +18,11 @@ import com.remoteapi.nikhilkumar.remoteapi.utils.INVOICE_TABLE
 import com.remoteapi.nikhilkumar.remoteapi.utils.InvoiceDBHelper
 
 
+
+
+
+
+
 class RemoteDataSource(private val appContext: Context){
 
     companion object {
@@ -77,6 +82,8 @@ class RemoteDataSource(private val appContext: Context){
         return data
     }
 
+
+
     fun getInvoiceListFromCache() : LiveData<Resource<List<Invoice>>> {
         val data = MutableLiveData<Resource<List<Invoice>>>()
         val cacheManager = CacheManager.getCacheManagerInstance(appContext)
@@ -91,7 +98,7 @@ class RemoteDataSource(private val appContext: Context){
 
     fun getInvoiceListFromDB() : List<Invoice>{
         val list =  InvoiceDBHelper.getInstance(appContext).getInvoiceList(INVOICE_TABLE)
-        return list.toList()
+        return list
     }
 
     fun saveInvoice(json : String){
@@ -100,6 +107,14 @@ class RemoteDataSource(private val appContext: Context){
 
     fun saveInvoiceListToDB(list : ArrayList<Product>)  {
         InvoiceDBHelper.getInstance(appContext).insertInvoiceList(list, INVOICE_TABLE)
+    }
+
+    fun productListFromDB(id : Int) : List<Product>{
+        val json = InvoiceDBHelper.getInstance(appContext).getProductListJson(id)
+        val gson = Gson()
+        val listType = object : TypeToken<List<Product>>() {}.type
+        val prodList = gson.fromJson<List<Product>>(json, listType)
+        return prodList
     }
 
 }
